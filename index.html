@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Realtime Ruangan SNI</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/favicon.png">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- ================= HEADER ================= -->
+
+        <header class="header">
+
+            <div class="brand">
+
+                <img src="assets/logo.png" alt="Logo Monitoring" class="logo">
+
+                <div class="title">
+                    <h1>Monitoring Realtime Ruangan</h1>
+                    <p>Kebisingan & Intensitas Cahaya Berbasis IoT</p>
+
+                    <!-- Status Koneksi Firebase -->
+                    <div id="connectionStatus" class="connection-status">
+                        <span class="dot"></span>
+                        <span id="connectionText">Menghubungkan Firebase...</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="header-right">
+
+                <select id="roomSelect">
+                    <option value="kelas">Ruang Kelas</option>
+                    <option value="lab">Laboratorium</option>
+                    <option value="perpus">Perpustakaan</option>
+                    <option value="dosen">Ruang Dosen</option>
+                </select>
+
+                <button id="themeBtn" aria-label="Ganti Tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+            </div>
+
+        </header>
+
+        <!-- ================= STANDAR SNI ================= -->
+
+        <section class="card standard-card">
+
+            <div class="card-title">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Standar SNI Ruangan</span>
+            </div>
+
+            <h3 id="standardRoom">Ruang Kelas</h3>
+
+            <div class="standard-grid">
+
+                <div class="standard-item">
+                    <small>Intensitas Cahaya</small>
+                    <h2 id="standardLux">250–300 Lux</h2>
+                </div>
+
+                <div class="standard-item">
+                    <small>Kebisingan</small>
+                    <h2 id="standardDb">≤ 55 dB</h2>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= SENSOR ================= -->
+
+        <section class="sensor-grid">
+
+            <!-- Cahaya -->
+            <div class="card sensor-card">
+
+                <div class="card-title">
+                    <i class="fa-solid fa-sun"></i>
+                    <span>Intensitas Cahaya</span>
+                </div>
+
+                <div class="sensor-value">
+                    <h2 id="luxValue">--</h2>
+                    <span>Lux</span>
+                </div>
+
+                <div id="luxIndicator" class="indicator loading">
+                    MENUNGGU DATA
+                </div>
+
+                <div class="average">
+                    <span>Rata-rata</span>
+                    <strong id="avgLux">--</strong>
+                </div>
+
+            </div>
+
+            <!-- Kebisingan -->
+            <div class="card sensor-card">
+
+                <div class="card-title">
+                    <i class="fa-solid fa-volume-high"></i>
+                    <span>Kebisingan</span>
+                </div>
+
+                <div class="sensor-value">
+                    <h2 id="dbValue">--</h2>
+                    <span>dB</span>
+                </div>
+
+                <div id="dbIndicator" class="indicator loading">
+                    MENUNGGU DATA
+                </div>
+
+                <div class="average">
+                    <span>Rata-rata</span>
+                    <strong id="avgDb">--</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= STATUS ================= -->
+
+        <section class="status-grid">
+
+            <!-- Status Alat -->
+            <div class="card">
+
+                <div class="card-title">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Status Alat</span>
+                </div>
+
+                <div id="toolStatus" class="badge badge-loading">
+                    MEMUAT...
+                </div>
+
+                <small id="lastUpdate">
+                    Update terakhir : -
+                </small>
+
+            </div>
+
+            <!-- Keputusan SNI -->
+            <div class="card">
+
+                <div class="card-title">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Keputusan SNI</span>
+                </div>
+
+                <div id="sniStatus" class="badge badge-loading">
+                    MENUNGGU DATA
+                </div>
+
+                <small id="roomInfo">
+                    Standar : Ruang Kelas
+                </small>
+
+            </div>
+
+        </section>
+
+        <!-- ================= GRAFIK ================= -->
+
+        <section class="card">
+
+            <div class="section-title">
+                Grafik Realtime
+            </div>
+
+            <div class="chart-grid">
+
+                <div class="chart-box">
+                    <canvas id="lightChart"></canvas>
+                </div>
+
+                <div class="chart-box">
+                    <canvas id="noiseChart"></canvas>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= QoS ================= -->
+
+        <section class="card">
+
+            <div class="section-title">
+                Quality of Service (QoS)
+            </div>
+
+            <div class="qos-grid">
+
+                <div class="qos-item">
+                    <span>Delay</span>
+                    <h3 id="delay">--</h3>
+                </div>
+
+                <div class="qos-item">
+                    <span>Packet Success</span>
+                    <h3 id="packet">--</h3>
+                </div>
+
+                <div class="qos-item">
+                    <span>Uptime</span>
+                    <h3 id="uptime">--</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- Main JavaScript -->
+    <script type="module" src="js/app.js"></script>
+
+</body>
+
+</html>
