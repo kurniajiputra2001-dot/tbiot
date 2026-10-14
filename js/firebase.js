@@ -8,13 +8,13 @@ import { getDatabase } from "https://www.gstatic.com/firebasejs/12.19.0/firebase
 
 // Konfigurasi Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyD-fygdpBHtwqeGoPCs7FP7O52BGsnk-Os",
-  authDomain: "monitoring-ruangan-sni.firebaseapp.com",
-  databaseURL: "https://monitoring-ruangan-sni-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "monitoring-ruangan-sni",
-  storageBucket: "monitoring-ruangan-sni.firebasestorage.app",
-  messagingSenderId: "46508922148",
-  appId: "1:46508922148:web:913ca555966bc8449b4fb1"
+  apiKey: "AIzaSyBadi6oR01F-p9NW5pPpDo8UNd0BiTsrS8",
+  authDomain: "tbiot-d6a04.firebaseapp.com",
+  databaseURL: "https://tbiot-d6a04-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "tbiot-d6a04",
+  storageBucket: "tbiot-d6a04.firebasestorage.app",
+  messagingSenderId: "15443680533",
+  appId: "1:15443680533:web:a53e876ef8364577d05d1c"
 };
 
 // Inisialisasi
